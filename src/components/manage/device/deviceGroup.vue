@@ -3,8 +3,8 @@
     <el-row>
       <el-col>
         <el-row>
-          <el-button type="primary" @click="dialogFormVisible = true">新增用户组</el-button>
-          <el-input placeholder="搜索用户组" style="width: 200px" v-model="userGroup">
+          <el-button type="primary" @click="dialogFormVisible = true">新增设备归类</el-button>
+          <el-input placeholder="搜索设备种类" style="width: 200px" v-model="userGroup">
           </el-input>
           <el-button type="primary" icon="el-icon-search"></el-button>
         </el-row>
@@ -12,38 +12,22 @@
     </el-row>
     <el-row>
       <el-col>
-        <el-table style="width: 100%;table-layout: fixed" :data="tableData" :fit="true">
-          <el-table-column label="用户组名称">
+        <el-table class="device-group-list" :data="tableData" :fit="true" border>
+          <el-table-column label="设备归类名称">
             <template slot-scope="scope">
-              <span>{{ scope.row.date }}</span>
+              <span>{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="用户组信息描述">
+          <el-table-column label="包含设备">
             <template slot-scope="scope">
-              <span>{{ scope.row.date }}</span>
+              <span>{{ scope.row.children }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间">
+          <el-table-column label="描述">
             <template slot-scope="scope">
-              <span>{{ scope.row.date }}</span>
+              <span>{{ scope.row.desc }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="组员">
-            <template slot-scope="scope">
-              <span>{{ scope.row.date }}</span>
-            </template>
-          </el-table-column>
-          <!--<el-table-column label="姓名">-->
-          <!--<template slot-scope="scope">-->
-          <!--<el-popover trigger="hover" placement="top">-->
-          <!--<p>姓名: {{ scope.row.name }}</p>-->
-          <!--<p>住址: {{ scope.row.address }}</p>-->
-          <!--<div class="name-wrapper" slot="reference">-->
-          <!--<el-tag size="medium">{{ scope.row.name }}</el-tag>-->
-          <!--</div>-->
-          <!--</el-popover>-->
-          <!--</template>-->
-          <!--</el-table-column>-->
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" @click="editUserGroup = true">编辑
@@ -59,15 +43,15 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-dialog title="新增用户组" :visible.sync="dialogFormVisible">
+    <el-dialog title="新增设备归类" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="用户组名称" :label-width="formLabelWidth">
+        <el-form-item label="归类名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off" :style="{width:inputWidth}"></el-input>
         </el-form-item>
-        <el-form-item label="用户组信息描述" :label-width="formLabelWidth">
+        <el-form-item label="归类信息描述" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off" :style="{width:inputWidth}"></el-input>
         </el-form-item>
-        <el-form-item label="组员" :label-width="formLabelWidth">
+        <el-form-item label="包含设备" :label-width="formLabelWidth">
           <el-transfer
             filter-placeholder="请输入城市拼音"
             v-model="value2"
@@ -83,20 +67,20 @@
         <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="修改用户组" :visible.sync="editUserGroup">
+    <el-dialog title="修改设备归类" :visible.sync="editUserGroup">
       <el-form :model="form">
-        <el-form-item label="用户组名称" :label-width="formLabelWidth">
+        <el-form-item label="归类名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off" :style="{width:inputWidth}"></el-input>
         </el-form-item>
-        <el-form-item label="用户组信息描述" :label-width="formLabelWidth">
+        <el-form-item label="归类信息描述" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off" :style="{width:inputWidth}"></el-input>
         </el-form-item>
-        <el-form-item label="组员" :label-width="formLabelWidth">
+        <el-form-item label="包含设备" :label-width="formLabelWidth">
           <el-transfer
             filter-placeholder="请输入城市拼音"
             v-model="value2"
             :filter-method="filterMethod"
-            :titles="['美信云', '智造云']"
+            :titles="['全部设备', '机床类']"
             :data="data2"
             filterable>
           </el-transfer>
@@ -129,21 +113,21 @@
       return {
         userGroup: '',
         tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          name: '机床类',
+          children: '车床、钻床',
+          desc: '这个设备....'
         }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          name: '机床类',
+          children: '车床、钻床',
+          desc: '这个设备....'
         }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          name: '机床类',
+          children: '车床、钻床',
+          desc: '这个设备....'
         }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          name: '机床类',
+          children: '车床、钻床',
+          desc: '这个设备....'
         }],
         dialogFormVisible: false,
         form: {
@@ -193,3 +177,11 @@
     }
   }
 </script>
+
+<style>
+.device-group-list {
+  width: 100%;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+</style>

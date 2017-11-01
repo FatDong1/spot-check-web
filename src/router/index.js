@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import webStorage from '../utils/storage'
 import manage from '@/components/manage'
-import group from '@/components/manage/user-manage/group.vue'
-import user from '@/components/manage/user-manage/user.vue'
 import login from '@/components/login'
-import gitlabList from '@/components/manage/gitlab-manage/gitlabList.vue'
-import addGitlab from '@/components/manage/gitlab-manage/addGitlab.vue'
+import userList from '@/components/manage/user/userList'
+import addUser from '@/components/manage/user/addUser'
+import deviceList from '@/components/manage/device/deviceList'
+import deviceGroup from '@/components/manage/device/deviceGroup'
 
 Vue.use(Router)
 
@@ -18,62 +18,64 @@ const router = new Router({
       name: 'manage',
       component: manage,
       children: [
+        // 设备管理
         {
-          path: '/manage/group',
-          name: 'group',
-          component: group,
+          path: '/manage/device/list',
+          name: 'deviceList',
+          component: deviceList,
+          meta: [
+            {
+              name: '设备管理',
+              url: ''
+            },
+            {
+              name: '设备列表',
+              url: ''
+            }
+          ]
+        },
+        {
+          path: '/manage/device/group',
+          name: 'deviceGroup',
+          component: deviceGroup,
+          meta: [
+            {
+              name: '设备管理',
+              url: ''
+            },
+            {
+              name: '设备归类',
+              url: ''
+            }
+          ]
+        },
+        // 用户管理
+        {
+          path: '/manage/user/list',
+          name: 'userList',
+          component: userList,
           meta: [
             {
               name: '用户管理',
               url: ''
             },
             {
-              name: '用户组管理',
+              name: '用户列表',
               url: ''
             }
           ]
         },
         {
-          path: '/manage/user',
-          name: 'user',
-          component: user,
+          path: '/manage/user/add',
+          name: 'addUser',
+          component: addUser,
           meta: [
             {
               name: '用户管理',
               url: ''
             },
             {
-              name: '用户管理',
-              url: ''
-            }
-          ]
-        },
-        {
-          path: '/manage/gitlab/list',
-          name: 'gitlabList',
-          component: gitlabList,
-          meta: [
-            {
-              name: 'gitlab管理',
-              url: ''
-            },
-            {
-              name: '列表',
-              url: ''
-            }
-          ]
-        },
-        {
-          path: '/manage/gitlab/add',
-          name: 'addGitlab',
-          component: addGitlab,
-          meta: [
-            {
-              name: 'gitlab管理',
-              url: ''
-            },
-            {
-              name: '添加项目',
+              name: '添加用户',
               url: ''
             }
           ]
