@@ -53,9 +53,18 @@
       <el-menu-item index="/manage/user/list">用户列表</el-menu-item>
       <el-menu-item index="/manage/user/add">创建用户</el-menu-item>
     </el-submenu>
+    <el-submenu index="7">
+      <template slot="title">
+        <i class="el-icon-view"></i>
+        <span>点检周期</span>
+      </template>
+      <el-menu-item index="/manage/cycle/day">日常点检</el-menu-item>
+      <el-menu-item index="/manage/cycle/profess">专业点检</el-menu-item>
+      <el-menu-item index="/manage/cycle/precision">精密点检</el-menu-item>
+    </el-submenu>
     <el-menu-item index="/manage/account">
-        <i class="el-icon-goods"></i>
-        <span slot="title">账户管理</span>
+      <i class="el-icon-goods"></i>
+      <span slot="title">账户管理</span>
     </el-menu-item>
     <el-tooltip class="item" effect="dark" placement="top" :content="content">
       <el-menu-item class="footer-collapse" @click="isCollapse = !isCollapse">

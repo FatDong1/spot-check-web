@@ -15,6 +15,9 @@ import professCheckWill from '@/components/manage/check/profess-check/professChe
 import precisionCheckDone from '@/components/manage/check/precision-check/precisionCheckDone'
 import precisionCheckWill from '@/components/manage/check/precision-check/precisionCheckWill'
 import account from '@/components/manage/account/account'
+import dayCycle from '@/components/manage/cycle/dayCycle'
+import professCycle from '@/components/manage/cycle/professCycle'
+import precisionCycle from '@/components/manage/cycle/precisionCycle'
 
 Vue.use(Router)
 
@@ -183,6 +186,46 @@ const router = new Router({
             {
               name: '添加用户',
               url: ''
+            }
+          ]
+        },
+        // 点检管理
+        {
+          path: '/manage/cycle/day',
+          name: 'dayCycle',
+          component: dayCycle,
+          meta: [
+            {
+              name: '点检周期'
+            },
+            {
+              name: '日常点检'
+            }
+          ]
+        },
+        {
+          path: '/manage/cycle/profess',
+          name: 'professCycle',
+          component: professCycle,
+          meta: [
+            {
+              name: '点检周期'
+            },
+            {
+              name: '专业点检'
+            }
+          ]
+        },
+        {
+          path: '/manage/cycle/precision',
+          name: 'precisionCycle',
+          component: precisionCycle,
+          meta: [
+            {
+              name: '点检周期'
+            },
+            {
+              name: '精密点检'
             }
           ]
         },
