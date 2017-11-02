@@ -39,7 +39,7 @@ export default {
       }
       // this.form.disabled = true
       this.$storage.set('CODE', 123)
-      this.$router.push({name: 'manage'})
+      this.$router.push({name: 'home'})
     }
   }
 }

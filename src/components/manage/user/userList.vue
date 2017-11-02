@@ -7,7 +7,7 @@
       </el-form-item>
       <el-button type="primary" @click="search" @keyup.enter="search">查询</el-button>
     </el-form>
-    <!-- 用户列表 -->
+    <!-- 显示的用户列表 -->
     <el-table
       class="user-list__table"
       :data="tableData"
@@ -15,21 +15,21 @@
       >
       <el-table-column
         prop="name"
-        label="姓名"
+        label="员工姓名"
        >
       </el-table-column>
       <el-table-column
         prop="job"
-        label="任务"
+        label="负责点检"
       >
       </el-table-column>
       <el-table-column
         prop="device"
-        label="设备">
+        label="负责设备">
       </el-table-column>
       <el-table-column
         prop="option"
-        label="操作">
+        label="选项">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -41,6 +41,24 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 隐藏的用户编辑表格 -->
+    <el-dialog title="编辑用户" :visible.sync="editFormVisible" center>
+      <el-form :model="userFormEdit">
+        <el-form-item label="员工姓名" label-width="100px">
+          <el-input v-model="userFormEdit.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="负责点检" label-width="100px">
+          <el-input v-model="userFormEdit.job" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="负责设备" label-width="100px">
+          <el-input v-model="userFormEdit.device" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -67,11 +85,18 @@ export default {
       }],
       formSearch: {
         name: ''
+      },
+      editFormVisible: false,
+      userFormEdit: {
+        name: 'xuhaodong',
+        job: '专业点检',
+        device: '车床类'
       }
     }
   },
   methods: {
     handleEdit (index, row) {
+      this.editFormVisible = true
       console.log(index, row)
     },
     handleDelete (index, row) {

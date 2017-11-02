@@ -1,12 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import webStorage from '../utils/storage'
+import home from '@/components/manage/home/home'
 import manage from '@/components/manage'
 import login from '@/components/login'
 import userList from '@/components/manage/user/userList'
 import addUser from '@/components/manage/user/addUser'
 import deviceList from '@/components/manage/device/deviceList'
 import deviceGroup from '@/components/manage/device/deviceGroup'
+import dayCheckDone from '@/components/manage/check/day-check/dayCheckDone'
+import dayCheckWill from '@/components/manage/check/day-check/dayCheckWill'
+import professCheckDone from '@/components/manage/check/profess-check/professCheckDone'
+import professCheckWill from '@/components/manage/check/profess-check/professCheckWill'
+import precisionCheckDone from '@/components/manage/check/precision-check/precisionCheckDone'
+import precisionCheckWill from '@/components/manage/check/precision-check/precisionCheckWill'
+import account from '@/components/manage/account/account'
 
 Vue.use(Router)
 
@@ -15,9 +23,107 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'manage',
       component: manage,
       children: [
+        // 首页
+        {
+          path: '/manage',
+          name: 'home',
+          component: home
+        },
+        // 日常点检
+        {
+          path: '/manage/day-check/done',
+          name: 'dayCheckDone',
+          component: dayCheckDone,
+          meta: [
+            {
+              name: '日常点检',
+              url: ''
+            },
+            {
+              name: '已完成',
+              url: ''
+            }
+          ]
+        },
+        {
+          path: '/manage/day-check/will',
+          name: 'dayCheckWill',
+          component: dayCheckWill,
+          meta: [
+            {
+              name: '日常点检',
+              url: ''
+            },
+            {
+              name: '未完成',
+              url: ''
+            }
+          ]
+        },
+        // 专业点检
+        {
+          path: '/manage/profess-check/done',
+          name: 'professCheckDone',
+          component: professCheckDone,
+          meta: [
+            {
+              name: '专业点检',
+              url: ''
+            },
+            {
+              name: '已完成',
+              url: ''
+            }
+          ]
+        },
+        {
+          path: '/manage/profess-check/will',
+          name: 'professCheckWill',
+          component: professCheckWill,
+          meta: [
+            {
+              name: '专业点检',
+              url: ''
+            },
+            {
+              name: '未完成',
+              url: ''
+            }
+          ]
+        },
+        // 精密点检
+        {
+          path: '/manage/precision-check/done',
+          name: 'precisionCheckDone',
+          component: precisionCheckDone,
+          meta: [
+            {
+              name: '精密点检',
+              url: ''
+            },
+            {
+              name: '已完成',
+              url: ''
+            }
+          ]
+        },
+        {
+          path: '/manage/precision-check/will',
+          name: 'precisionCheckWill',
+          component: precisionCheckWill,
+          meta: [
+            {
+              name: '精密点检',
+              url: ''
+            },
+            {
+              name: '未完成',
+              url: ''
+            }
+          ]
+        },
         // 设备管理
         {
           path: '/manage/device/list',
@@ -79,6 +185,17 @@ const router = new Router({
               url: ''
             }
           ]
+        },
+        // 账户管理
+        {
+          path: '/manage/account',
+          name: 'account',
+          component: account,
+          meta: [
+            {
+              name: '账户管理'
+            }
+          ]
         }
       ]
     },
@@ -93,7 +210,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let code = webStorage.get('CODE') || false
   if (code && to.name === 'login') {
-    next({name: 'manage'})
+    next({name: 'home'})
   } else if (!code && to.name === 'login') {
     next()
   } else if (!code) {

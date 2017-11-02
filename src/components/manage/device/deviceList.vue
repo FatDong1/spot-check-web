@@ -9,8 +9,8 @@
     </el-form>
     <!-- 列表模块 -->
     <el-table class="device-list__table" :data="deviceData">
-      <el-table-column type="expand"  label-width="300px">
-        <template slot-scope="props">
+      <el-table-column type="expand"  label-width="100px">
+        <template slot-scope="props" inline>
           <el-form label-position="left" class="table-expand" inline>
             <el-form-item label="设备名称">
               <span>{{ props.row.name }}</span>
@@ -47,12 +47,38 @@
       </el-table-column>
       <el-table-column label="设备名称" prop="name"></el-table-column>
       <el-table-column label="设备归类" prop="group"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column
+        prop="option"
+        label="选项">
         <template slot-scope="scope">
-          <el-button size="small" @click="handleUpdate(scope.$index, scope.row)">pull</el-button>
+          <el-button
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <!-- 隐藏的设备编辑表格 -->
+    <el-dialog title="编辑设备" :visible.sync="editFormVisible" center>
+      <el-form :model="userFormEdit">
+        <el-form-item label="设备名称" label-width="100px">
+          <el-input v-model="deviceFormEdit.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="设备归类" label-width="100px">
+          <el-input v-model="deviceFormEdit.group" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="生产日期" label-width="100px">
+          <el-input v-model="deviceFormEdit.buyDate" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
     <!-- 分页模块 -->
     <el-pagination
       class="pagination"
@@ -81,7 +107,13 @@ export default {
       formSearch: {
         name: ''
       },
-      currentPage1: 5
+      deviceFormEdit: {
+        name: '车床',
+        group: '车床类',
+        buyDate: '2017-11-02'
+      },
+      currentPage1: 5,
+      editFormVisible: false
     }
   },
   created () {
@@ -98,6 +130,9 @@ export default {
     }
   },
   methods: {
+    handleEdit (index, row) {
+      this.editFormVisible = true
+    },
     handleUpdate (index, row) {
       console.log(index, row)
     },
