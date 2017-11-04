@@ -3,8 +3,6 @@
  * 使用 axios 插件来支持发送 http 请求
  */
 import axios from 'axios'
-import REQUEST_CONFIG from '../config/request'
-// import webStoarge from '@/utility/storage'
 
 /**
  * 格式化http请求的相关配置项
@@ -12,10 +10,6 @@ import REQUEST_CONFIG from '../config/request'
  */
 function formatRequest (request) {
   if (request instanceof Object) {
-    // 对url进行处理
-    if (request.url) {
-      request.url = REQUEST_CONFIG[request.url]
-    }
     // 对params进行处理，默认添加appKey属性
     // if (request.params && typeof request.params === 'object') {
     //   if (request.params.appKey === undefined) {

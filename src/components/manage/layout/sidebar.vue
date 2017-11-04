@@ -9,8 +9,8 @@
     :router="router"
     unique-opened="true"
     :collapse="isCollapse">
-    <el-menu-item index="/manage">
-      <i class="el-icon-menu"></i>
+    <el-menu-item index="/manage" style="font-size: 16px; color: #409eff">
+      <i class="el-icon-menu" style="color: #409eff"></i>
       <span>设备点检系统</span>
     </el-menu-item>
     <el-submenu index="2">
@@ -62,11 +62,15 @@
       <el-menu-item index="/manage/cycle/profess">专业点检</el-menu-item>
       <el-menu-item index="/manage/cycle/precision">精密点检</el-menu-item>
     </el-submenu>
+    <el-menu-item index="/manage/notice">
+      <i class="el-icon-date"></i>
+      <span slot="title">公告管理</span>
+    </el-menu-item>
     <el-menu-item index="/manage/account">
       <i class="el-icon-goods"></i>
       <span slot="title">账户管理</span>
     </el-menu-item>
-    <el-tooltip class="item" effect="dark" placement="top" :content="content">
+    <el-tooltip effect="dark" placement="top" :content="content">
       <el-menu-item class="footer-collapse" @click="isCollapse = !isCollapse">
         <i v-if="!isCollapse" class="el-icon-d-arrow-left"></i>
         <i v-if="isCollapse" class="el-icon-d-arrow-right"></i>

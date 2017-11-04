@@ -38,7 +38,7 @@ export default {
         alert('密码不能为空')
       }
       // this.form.disabled = true
-      this.$storage.set('CODE', 123)
+      sessionStorage.setItem('CODE', 123)
       this.$router.push({name: 'home'})
     }
   }

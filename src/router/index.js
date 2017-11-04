@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import webStorage from '../utils/storage'
 import home from '@/components/manage/home/home'
 import manage from '@/components/manage'
 import login from '@/components/login'
@@ -18,6 +17,7 @@ import account from '@/components/manage/account/account'
 import dayCycle from '@/components/manage/cycle/dayCycle'
 import professCycle from '@/components/manage/cycle/professCycle'
 import precisionCycle from '@/components/manage/cycle/precisionCycle'
+import notice from '@/components/manage/notice/notice'
 
 Vue.use(Router)
 
@@ -229,6 +229,17 @@ const router = new Router({
             }
           ]
         },
+        // 公告管理
+        {
+          path: '/manage/notice',
+          name: 'notice',
+          component: notice,
+          meta: [
+            {
+              name: '公告管理'
+            }
+          ]
+        },
         // 账户管理
         {
           path: '/manage/account',
@@ -251,7 +262,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let code = webStorage.get('CODE') || false
+  let code = sessionStorage.getItem('CODE') || false
   if (code && to.name === 'login') {
     next({name: 'home'})
   } else if (!code && to.name === 'login') {
