@@ -14,16 +14,16 @@
     </el-form-item>
     <el-form-item label="负责点检">
       <el-select v-model="userForm.checkType" placeholder="请选择点检种类">
-        <el-option label="日常点检" value="shanghai"></el-option>
-        <el-option label="专业点检" value="beijing"></el-option>
-        <el-option label="精密点检" value="xxxxxxx"></el-option>
+        <el-option label="日常点检" value="日常点检"></el-option>
+        <el-option label="专业点检" value="专业点检"></el-option>
+        <el-option label="精密点检" value="精密点检"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="负责设备">
       <el-select v-model="userForm.deviceGroup" placeholder="请选择设备种类">
-        <el-option label="电气类" value="shanghai"></el-option>
-        <el-option label="机床类" value="beijing"></el-option>
-        <el-option label="仪器类" value="xxxxxxx"></el-option>
+        <el-option label="电气类" value="电气类"></el-option>
+        <el-option label="机床类" value="机床类"></el-option>
+        <el-option label="仪器类" value="仪器类"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item class="user-form__btn">
@@ -76,15 +76,25 @@
     },
     methods: {
       onSubmit () {
-        console.log(this.userForm)
+        var that = this
+        for (let key in this.userForm) {
+          if (!this.userForm[key]) {
+            this.$message.error('还有信息没有填写')
+            return
+          }
+        }
         this.$http({
-          url: '/api/signup',
+          url: '/api/user/add',
           method: 'POST',
           data: this.userForm
         }).then((data) => {
-          console.log(data)
+          that.$message({
+            message: '创建用户成功',
+            type: 'success'
+          })
         }).catch((err) => {
           console.log(err)
+          that.$message.error(err.msg)
         })
       }
     }
@@ -94,7 +104,8 @@
 <style>
 .user-form {
   width: 300px;
-  margin: 40px auto;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .user-form__btn {

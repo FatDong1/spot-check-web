@@ -1,12 +1,14 @@
 <template>
   <div class="user-list">
     <!-- 查询模块 -->
-    <el-form class="form-search" :inline="true" :model="formSearch">
-      <el-form-item label="">
-        <el-input placeholder="用户姓名" v-model="formSearch.name"></el-input>
-      </el-form-item>
-      <el-button type="primary" @click="search" @keyup.enter="search">查询</el-button>
-    </el-form>
+    <div class="search">
+      <el-input
+        placeholder="请输入用户姓名"
+        v-model="searchName"
+        class="search-input"
+        @keyup.enter.native="searchUser"></el-input>
+      <el-button type="primary" @click="searchUser">查询</el-button>
+    </div>
     <!-- 显示的用户列表 -->
     <el-table
       class="user-list__table"
@@ -19,13 +21,18 @@
        >
       </el-table-column>
       <el-table-column
-        prop="job"
+        prop="account"
+        label="员工账号"
+       >
+      </el-table-column>
+      <el-table-column
+        prop="checkType"
         label="负责点检"
       >
       </el-table-column>
       <el-table-column
-        prop="device"
-        label="负责设备">
+        prop="deviceGroup"
+        label="负责设备种类">
       </el-table-column>
       <el-table-column
         prop="option"
@@ -47,16 +54,27 @@
         <el-form-item label="员工姓名" label-width="100px">
           <el-input v-model="userFormEdit.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="负责点检" label-width="100px">
-          <el-input v-model="userFormEdit.job" auto-complete="off"></el-input>
+        <el-form-item label="员工账号" label-width="100px">
+          <el-input v-model="userFormEdit.account" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="负责设备" label-width="100px">
-          <el-input v-model="userFormEdit.device" auto-complete="off"></el-input>
-        </el-form-item>
+      <el-form-item label="负责点检" label-width="100px">
+        <el-select v-model="userFormEdit.checkType" placeholder="请选择点检种类">
+          <el-option label="日常点检" value="日常点检"></el-option>
+          <el-option label="专业点检" value="专业点检"></el-option>
+          <el-option label="精密点检" value="精密点检"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="负责设备" label-width="100px">
+        <el-select v-model="userFormEdit.deviceGroup" placeholder="请选择设备种类">
+          <el-option label="电气类" value="电气类"></el-option>
+          <el-option label="机床类" value="机床类"></el-option>
+          <el-option label="仪器类" value="仪器类"></el-option>
+        </el-select>
+      </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="handleConfirm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -66,49 +84,114 @@
 export default {
   data () {
     return {
-      tableData: [{
-        name: '王小虎',
-        job: '日常点检',
-        device: '机床类'
-      }, {
-        name: '王小虎',
-        job: '日常点检',
-        device: '电气类'
-      }, {
-        name: '王小虎',
-        job: '日常点检',
-        device: '车床类'
-      }, {
-        name: '王小虎',
-        job: '日常点检',
-        device: '钻床类'
-      }],
-      formSearch: {
-        name: ''
-      },
+      tableData: '',
+      searchName: '',
+      editIndex: '',
       editFormVisible: false,
       userFormEdit: {
-        name: 'xuhaodong',
-        job: '专业点检',
-        device: '车床类'
+        id: '',
+        name: '',
+        checkType: '',
+        deviceGroup: ''
       }
     }
   },
+  created () {
+    this.$http({
+      url: '/api/users',
+      methods: 'GET'
+    }).then((data) => {
+      this.tableData = data.value
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
   methods: {
     handleEdit (index, row) {
+      this.editIndex = index
       this.editFormVisible = true
-      console.log(index, row)
+      for (let key in row) {
+        this.userFormEdit[key] = row[key]
+      }
     },
     handleDelete (index, row) {
-      console.log(index, row)
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http({
+          url: '/api/user',
+          method: 'DELETE',
+          params: {
+            id: row.id
+          }
+        }).then((data) => {
+          this.$message({
+            message: data.msg,
+            type: 'success'
+          })
+          // 重新获取用户数据
+          this.$http({
+            url: '/api/users',
+            methods: 'GET'
+          }).then((data) => {
+            this.tableData = data.value
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+
+    searchUser () {
+      this.$http({
+        url: '/api/users/search',
+        method: 'GET',
+        params: {
+          name: this.searchName
+        }
+      }).then((data) => {
+        this.tableData = data.value
+      }).catch(() => {
+        this.tableData = []
+      })
+    },
+
+    handleConfirm () {
+      this.$http({
+        url: '/api/user',
+        method: 'POST',
+        data: this.userFormEdit
+      }).then((data) => {
+        this.$message({
+          message: data.msg,
+          type: 'success'
+        })
+        for (let key in this.userFormEdit) {
+          this.tableData[this.editIndex][key] = this.userFormEdit[key]
+        }
+      }).catch((err) => {
+        this.$message.error(err.msg)
+      })
+      this.editFormVisible = false
     }
   }
 }
 </script>
 
 <style>
-.form-search {
+.search {
   text-align: right;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  display: inline-block;
+  width: 20%;
 }
 
 .user-list__table {
