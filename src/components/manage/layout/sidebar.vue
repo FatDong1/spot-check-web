@@ -12,25 +12,21 @@
 
       <el-menu-item @click="isCollapse = !isCollapse">
         <i class="el-icon-menu"></i>
-        <span>文档后台管理系统</span>
+        <span>脚力共享后台管理</span>
       </el-menu-item>
     </el-tooltip>
-    <el-submenu index="2">
-      <template slot="title">
+      <el-menu-item index="/order/list">
         <i class="el-icon-document"></i>
-        <span>用户管理</span>
-      </template>
-      <el-menu-item index="/manage/user">用户管理</el-menu-item>
-      <el-menu-item index="/manage/group">用户组管理</el-menu-item>
-    </el-submenu>
-    <el-submenu index="3">
-      <template slot="title">
-        <i class="el-icon-date"></i>
-        <span>gitlab管理</span>
-      </template>
-      <el-menu-item index="/manage/gitlab/add">添加gitlab</el-menu-item>
-      <el-menu-item index="/manage/gitlab/list">查询gitlab</el-menu-item>
-    </el-submenu>
+        <span>订单管理</span>
+      </el-menu-item>
+      <el-menu-item index="/business/list">
+        <i class="el-icon-printer"></i>      
+        <span>商家管理</span>  
+      </el-menu-item>
+      <el-menu-item index="/user/list">
+        <i class="el-icon-news"></i>            
+        <span>会员管理</span>
+      </el-menu-item>
   </el-menu>
 </template>
 <style>

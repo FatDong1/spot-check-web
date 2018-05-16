@@ -1,6 +1,5 @@
 <template>
   <el-container class="container">
-      <sidebar></sidebar>
     <el-container class="right">
       <el-header>
         <v-header></v-header>
@@ -35,7 +34,6 @@
   }
 
   .el-header {
-    background-color: #eff2f7;
     color: #ffffff;
     float: left;
   }

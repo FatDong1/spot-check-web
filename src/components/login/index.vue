@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <p class="login__title">美信文档后台管理</p>
+    <p class="login__title">脚力共享后台管理</p>
     <el-form ref="form" :model="form" label-width="50px">
       <el-form-item label="账号">
         <el-input v-model="form.name"></el-input>
