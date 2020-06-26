@@ -5,7 +5,7 @@
 ## 构建
 
 ``` bash
-# 安装依赖
+# 安装依赖test
 npm install
 
 # 开启热加载服务器: localhost:8080
